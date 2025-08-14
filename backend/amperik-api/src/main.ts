@@ -18,6 +18,10 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { Registry, collectDefaultMetrics } from 'prom-client';
 import * as express from 'express';
 import { logger } from './config/logger';
+import { config } from 'dotenv';
+
+config(); // Carrega variáveis de ambiente do .env
+
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, { bufferLogs: true });
   // Security
@@ -51,7 +55,7 @@ async function bootstrap() {
       res.set('Content-Type', register.contentType);
       res.end(await register.metrics());
     });
-  const port = parseInt(process.env.PORT || '3000', 10);
+  const port = parseInt(process.env.PORT || '3333', 10);
   await app.listen(port);
   logger.info(`API running on http://localhost:${port}`);
 }
